@@ -148,6 +148,35 @@ body {
 }
 
 /* =========================
+    DASHBOARD
+========================= */
+
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.kpi-card {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.kpi-card .label {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.kpi-card .value {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* =========================
    CARD
 ========================= */
 .card {
