@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="card">
+
+        <h3>Delete Company</h3>
+
+        <p>
+            Are you sure you want to delete {{ company.name }}?
+        </p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <button class="danger-button">
+                Delete
+            </button>
+        </form>
+
+    </div>
+
+{% endblock %}

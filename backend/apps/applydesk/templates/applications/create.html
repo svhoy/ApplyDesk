@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="page">
+
+        <div class="card">
+
+            <h2>Create Application</h2>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div>
+                    {{ form.company_name.label }}
+                    {{ form.company_name }}
+                </div>
+
+                <div>
+                    {{ form.position_title.label }}
+                    {{ form.position_title }}
+                </div>
+
+                <div>
+                    {{ form.location.label }}
+                    {{ form.location }}
+                </div>
+
+                <div>
+                    {{ form.notes.label }}
+                    {{ form.notes }}
+                </div>
+
+                <button type="submit">
+                    Create
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+{% endblock %}

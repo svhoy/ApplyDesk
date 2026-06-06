@@ -1,0 +1,15 @@
+<div id="application-list" class="grid">
+
+    {% for application in applications %}
+
+        {% include "applications/partials/card.html" %}
+
+    {% empty %}
+
+        <div class="card">
+            No applications yet.
+        </div>
+
+    {% endfor %}
+
+</div>

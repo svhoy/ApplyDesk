@@ -1,0 +1,17 @@
+{% for action in actions %}
+
+    <button
+            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+            hx-post="{% url 'change_status' application.pk %}"
+            hx-vals='{
+                "status": "{{ action.to }}",
+                "context": "detail"
+            }'
+            hx-target="#application-card"
+            hx-swap="outerHTML"
+            class="workflow-button workflow-button--{{ action.color }}"
+    >
+        {{ action.label }}
+    </button>
+
+{% endfor %}

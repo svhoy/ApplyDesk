@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="page">
+
+        <div class="page-header">
+
+            <div class="title">
+                {% if mode == "create" %}
+                    Create Company
+                {% else %}
+                    Edit Company
+                {% endif %}
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="form-grid">
+
+                    {{ form.name }}
+                    {{ form.street }}
+                    {{ form.street_number }}
+                    {{ form.city }}
+                    {{ form.state }}
+                    {{ form.zipcode }}
+                    {{ form.country }}
+                    {{ form.url }}
+                    {{ form.career_site }}
+
+                </div>
+
+                <div class="form-actions">
+                    <button class="primary-button" type="submit">
+                        Save
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+{% endblock %}

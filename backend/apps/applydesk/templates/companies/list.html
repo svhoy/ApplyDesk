@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="page">
+
+        <div class="page-header">
+
+            <div>
+                <div class="title">
+                    Companies
+                </div>
+
+                <div class="muted">
+                    Companies you've applied to
+                </div>
+            </div>
+
+        </div>
+
+        <div class="grid">
+
+            {% for company in companies %}
+
+                {% include "companies/partials/card.html" %}
+
+            {% empty %}
+
+                <div class="card">
+                    No companies found.
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+{% endblock %}

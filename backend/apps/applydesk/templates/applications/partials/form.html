@@ -1,0 +1,45 @@
+<div class="card form-card">
+
+    <div class="form-header">
+        <h3>Create Application</h3>
+        <div class="muted">Add a new application to your pipeline</div>
+    </div>
+
+    <form
+            class="form"
+            hx-post="{% url 'application_create' %}"
+            hx-target="#application-list"
+            hx-swap="outerHTML"
+    >
+
+        {% csrf_token %}
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                {{ form.company_name }}
+            </div>
+
+            <div class="form-group">
+                {{ form.position_title }}
+            </div>
+
+            <div class="form-group">
+                {{ form.location }}
+            </div>
+
+            <div class="form-group full">
+                {{ form.notes }}
+            </div>
+
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="primary-button">
+                Save Application
+            </button>
+        </div>
+
+    </form>
+
+</div>

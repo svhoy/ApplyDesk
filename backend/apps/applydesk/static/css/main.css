@@ -1,0 +1,554 @@
+:root {
+
+    /* =========================
+       COLORS
+    ========================= */
+
+    --bg: rgb(33, 41, 55);
+    --bg-card: rgb(18, 24, 39);
+    --bg-deep: rgb(3, 8, 23);
+
+    --text: rgb(255, 255, 255);
+    --text-muted: rgb(120, 132, 143);
+
+    --border: rgb(67, 76, 91);
+
+    --success: rgb(6, 191, 104);
+    --danger: rgb(220, 38, 38);
+    --warning: rgb(245, 158, 11);
+
+    /* =========================
+       SPACING
+    ========================= */
+
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 12px;
+    --space-lg: 16px;
+    --space-xl: 24px;
+    --space-2xl: 32px;
+
+    /* =========================
+       RADIUS
+    ========================= */
+
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+
+    /* =========================
+       TYPOGRAPHY
+    ========================= */
+
+    --font-base: Inter, system-ui, sans-serif;
+
+    --font-sm: 12px;
+    --font-md: 14px;
+    --font-lg: 18px;
+    --font-xl: 24px;
+
+    /* =========================
+       SHADOWS
+    ========================= */
+
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* =========================
+   GLOBAL RESET
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-base);
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.app-shell {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+}
+
+.page {
+    padding: var(--space-xl);
+}
+
+.sidebar {
+    background: var(--bg-card);
+    border-right: 1px solid var(--border);
+    padding: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-lg);
+}
+
+/* =========================
+   Navigation
+========================= */
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: var(--space-sm);
+    border-radius: var(--radius-sm);
+    transition: 0.2s;
+}
+
+.nav a:hover {
+    background: var(--bg);
+    color: var(--text);
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.main {
+    padding: var(--space-xl);
+    background: var(--bg);
+}
+
+/* =========================
+    HEADER
+========================= */
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-xl);
+}
+
+/* =========================
+   CARD
+========================= */
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    box-shadow: none; /* bewusst raus für clean UI */
+    transition: 0.2s ease;
+}
+
+.card:hover {
+    border-color: var(--success);
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.application-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    height: 100%;
+}
+
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.company {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.position {
+    font-size: 14px;
+    color: var(--text);
+}
+
+.meta {
+    font-size: 12px;
+}
+
+/* =========================
+   DETAIL
+========================= */
+.detail-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-2xl);
+}
+
+.detail-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+}
+
+.detail-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+}
+
+.history-item {
+    padding: var(--space-sm);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* =========================
+   FORMS
+========================= */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+}
+
+.form-grid .full {
+    grid-column: 1 / -1;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--success);
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.form-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.primary-button {
+    background: var(--success);
+    color: black;
+    border: none;
+    padding: var(--space-sm) var(--space-lg);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.primary-button:hover {
+    opacity: 0.9;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+}
+
+.workflow-button {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-sm) var(--space-lg);
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text);
+    background: transparent;
+}
+
+.workflow-button--green {
+    border-color: var(--success);
+    background: var(--success);
+    color: black;
+}
+
+.workflow-button--gray {
+    border-color: var(--text-muted);
+    background: var(--text-muted);
+    color: white;
+}
+
+.workflow-button--red {
+    border-color: var(--danger);
+    background: var(--danger);
+    color: white;
+}
+
+/* =========================
+   BADGES
+========================= */
+
+.badge {
+    display: inline-block;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    font-size: var(--font-sm);
+    color: var(--text);
+}
+
+.badge--saved {
+    border-color: var(--border);
+}
+
+.badge--prepared {
+    border-color: var(--success);
+}
+
+.badge--interview {
+    border-color: var(--warning);
+}
+
+.badge--rejected {
+    border-color: var(--danger);
+}
+
+.kanban-column-header .badge {
+    transition: 0.2s;
+}
+
+.drop-zone.drag-over .badge {
+    transform: scale(1.1);
+}
+
+/* =========================
+   TYPOGRAPHY HELPERS
+========================= */
+
+.muted {
+    color: var(--text);
+}
+
+.title {
+    font-size: var(--font-xl);
+    font-weight: 600;
+}
+
+/* =========================
+   KANBAN
+========================= */
+.kanban {
+    display: flex;
+    gap: var(--space-lg);
+    overflow-x: auto;
+    align-items: flex-start;
+}
+
+.kanban-column {
+    min-width: 320px;
+    min-height: 500px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.kanban-column-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-md);
+}
+
+.empty-column {
+    text-align: center;
+    padding: var(--space-xl);
+    color: var(--text-muted);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-md);
+}
+
+.kanban-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.kanban-card.dragging {
+    opacity: 0.6;
+    transform: scale(1.03);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.kanban-card:hover {
+    border-color: var(--success);
+    transform: translateY(-2px);
+}
+
+.kanban-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+}
+
+.kanban-footer {
+    margin-top: auto;
+}
+
+.kanban-detail-link {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.kanban-detail-link:hover {
+    color: var(--text);
+    text-decoration: underline;
+}
+
+.drop-zone {
+    transition: background 0.15s ease, border 0.15s ease;
+    border: 1px solid transparent;
+}
+
+.drop-zone.drag-over {
+    background: rgba(0, 120, 255, 0.06);
+    border: 1px dashed rgba(0, 120, 255, 0.5);
+}
+
+.drag-over-invalid {
+    border: 1px dashed var(--danger);
+    background: rgba(220, 38, 38, 0.08);
+}
+
+.drop-zone.drop-flash {
+    animation: dropFlash 0.2s ease;
+}
+
+@keyframes dropFlash {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.01);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.shake {
+    animation: shake 0.25s ease;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-4px);
+    }
+    50% {
+        transform: translateX(4px);
+    }
+    75% {
+        transform: translateX(-2px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* =========================
+   MEDIA VIEWS
+========================= */
+
+@media (max-width: 1024px) {
+
+    .app-shell {
+        grid-template-columns: 220px 1fr;
+    }
+
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .app-shell {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}

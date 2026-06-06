@@ -1,0 +1,19 @@
+<a
+        href="{% url 'company_detail' company.pk %}"
+        class="card-link"
+>
+
+    <div class="card">
+
+        <div class="company">
+            {{ company.name }}
+        </div>
+
+        <div class="muted">
+            {{ company.application_count }}
+            application{{ company.application_count|pluralize }}
+        </div>
+
+    </div>
+
+</a>

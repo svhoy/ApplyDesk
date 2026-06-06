@@ -1,0 +1,27 @@
+<div class="card">
+
+    <h3>History</h3>
+
+    {% for entry in application.history.all %}
+
+        <div class="history-item">
+
+            <div>
+                {{ entry.from_status }} → {{ entry.to_status }}
+            </div>
+
+            <div class="muted">
+                {{ entry.created_at }}
+            </div>
+
+        </div>
+
+    {% empty %}
+
+        <div class="muted">
+            No history yet
+        </div>
+
+    {% endfor %}
+
+</div>

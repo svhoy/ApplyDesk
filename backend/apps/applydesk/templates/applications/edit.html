@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="page">
+
+        <div class="page-header">
+
+            <div>
+
+                <div class="title">
+                    Edit Application
+                </div>
+
+                <div class="muted">
+                    {{ application.company.name }}
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <form method="post" class="form">
+
+                {% csrf_token %}
+
+                <div class="form-grid">
+
+                    {{ form.position_title }}
+
+                    {{ form.position_description }}
+
+                    {{ form.location }}
+
+                    {{ form.location_type }}
+
+                    {{ form.url }}
+
+                    {{ form.start_date }}
+
+                    {{ form.contact_person }}
+
+                    {{ form.contact_email }}
+
+                    {{ form.contact_phone }}
+
+                    <div class="full">
+                        {{ form.notes }}
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+
+                    <button
+                            type="submit"
+                            class="primary-button"
+                    >
+                        Save
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+{% endblock %}

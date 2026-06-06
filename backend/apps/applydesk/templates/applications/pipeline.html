@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load applydesk_tags %}
+{% block content %}
+
+    <div class="kanban">
+
+        {% for status in statuses %}
+
+            {% include "applications/partials/kanban_column.html" with status=status applications=columns|get_item:status %}
+
+        {% endfor %}
+
+    </div>
+
+{% endblock %}

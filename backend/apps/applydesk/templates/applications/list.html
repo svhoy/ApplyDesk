@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="page">
+
+        <!-- HEADER -->
+        <div class="page-header">
+
+            <div>
+                <h1 class="title">Applications</h1>
+                <div class="muted">Track your job applications</div>
+            </div>
+
+            <button
+                    class="primary-button"
+                    hx-get="{% url 'application_form' %}"
+                    hx-target="#modal-content"
+                    hx-swap="innerHTML"
+            >
+                + New Application
+            </button>
+
+        </div>
+
+        <!-- GRID -->
+        {% include "applications/partials/list.html" %}
+
+    </div>
+
+    <!-- MODAL -->
+    <div id="modal">
+        <div id="modal-content"></div>
+    </div>
+
+{% endblock %}

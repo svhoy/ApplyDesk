@@ -1,0 +1,27 @@
+<a href="{% url 'application_detail' application.pk %}" class="card-link">
+
+    <div class="card application-card">
+
+        <div class="card-top">
+
+            <div class="company">
+                {{ application.company.name }}
+            </div>
+
+            <span class="badge">
+                {{ application.get_status_display }}
+            </span>
+
+        </div>
+
+        <div class="position">
+            {{ application.position_title }}
+        </div>
+
+        <div class="meta muted">
+            {{ application.location|default:"No location" }}
+        </div>
+
+    </div>
+
+</a>

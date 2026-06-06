@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="detail-grid">
+
+        <div class="detail-column">
+
+            <div class="card">
+
+                <div class="title">
+                    {{ company.name }}
+                </div>
+
+                {% if company.url %}
+                    <div>
+                        <a href="{{ company.url }}">
+                            Website
+                        </a>
+                    </div>
+                {% endif %}
+
+                {% if company.career_site %}
+                    <div>
+                        <a href="{{ company.career_site }}">
+                            Career Site
+                        </a>
+                    </div>
+                {% endif %}
+
+            </div>
+
+            <div class="card">
+
+                <h3>Applications</h3>
+
+                {% for application in company.application_set.all %}
+
+                    <a
+                            href="{% url 'application_detail' application.pk %}"
+                    >
+                        {{ application.position_title }}
+                    </a>
+
+                    <br>
+
+                {% empty %}
+
+                    No applications yet.
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        <div class="detail-sidebar">
+
+            <div class="card">
+
+                <h3>Address</h3>
+
+                <p>{{ company.street|default:"-" }}</p>
+
+                <p>
+                    {{ company.zipcode|default:"" }}
+                    {{ company.city|default:"-" }}
+                </p>
+
+                <p>{{ company.country|default:"-" }}</p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Statistics</h3>
+
+                <p>
+                    Applications:
+                    {{ company.application_set.count }}
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}

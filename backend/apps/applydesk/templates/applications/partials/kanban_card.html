@@ -1,0 +1,52 @@
+<div class="card kanban-card"
+     draggable="true"
+     data-id="{{ app.object.pk }}"
+     data-status="{{ app.object.status }}"
+>
+
+    <div class="card-top">
+
+        <div class="company">
+            {{ app.object.company.name }}
+        </div>
+
+        <div class="badge">
+            {{ app.object.get_status_display }}
+        </div>
+
+    </div>
+
+    <div class="position">
+        {{ app.object.position_title }}
+    </div>
+
+    <a
+            href="{% url 'application_detail' app.object.pk %}"
+            class="kanban-detail-link"
+    >
+        View details
+    </a>
+
+    <!-- BUTTONS (HTMX ONLY) -->
+    <div class="actions">
+
+        {% for action in app.actions %}
+
+            <button
+                    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                    hx-post="{% url 'change_status' app.object.pk %}"
+                    hx-vals='{
+                        "status":"{{ action.to }}",
+                        "context": "kanban"
+                    }'
+                    hx-swap="none"
+                    class="workflow-button workflow-button--{{ action.color }}"
+            >
+                {{ action.label }}
+            </button>
+
+        {% endfor %}
+
+    </div>
+
+</div>
