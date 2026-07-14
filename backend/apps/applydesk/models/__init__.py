@@ -1,4 +1,4 @@
-from .application import Application, ApplicationFile
+from .application import Application, ApplicationDocument, ApplicationRequiredDocument
 from .application_history import ApplicationStatusHistory
 from .company import Company
-from .file import FileAsset
+from .document import Document, DocumentDraft, DocumentSchema, DocumentSchemaVersion

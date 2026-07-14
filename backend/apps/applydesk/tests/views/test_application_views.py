@@ -31,3 +31,21 @@ def test_application_create_view(client):
     )
 
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_application_detail_contains_completeness_card(
+    client,
+    application,
+):
+
+    response = client.get(
+        reverse(
+            "application_detail",
+            args=[application.id],
+        )
+    )
+
+    assert response.status_code == 200
+
+    assert b"Application Readiness" in response.content

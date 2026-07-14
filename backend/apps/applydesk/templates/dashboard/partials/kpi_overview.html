@@ -1,0 +1,18 @@
+<div class="kpi-grid">
+
+    <div class="kpi-card">
+        <div class="kpi-label">Active</div>
+        <div class="kpi-value">{{ total_active }}</div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-label">Offers</div>
+        <div class="kpi-value">{{ status_map.offer|default:0 }}</div>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-label">Rejected</div>
+        <div class="kpi-value">{{ status_map.rejected|default:0 }}</div>
+    </div>
+
+</div>

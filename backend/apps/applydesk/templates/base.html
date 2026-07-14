@@ -8,8 +8,12 @@
     <title>{% block title %}ApplyDesk{% endblock %}</title>
 
     <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+
+    <script src="{% static 'js/app.js' %}"></script>
     <script src="{% static 'js/cookie.js' %}"></script>
     <script src="{% static 'js/kanban.js' %}"></script>
+    <script src="{% static 'js/side_panel.js' %}"></script>
+
 
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
 
@@ -44,6 +48,10 @@
                 Companies
             </a>
 
+            <a href="{% url 'document_list' %}">
+                Documents
+            </a>
+
         </nav>
 
     </aside>
@@ -53,8 +61,11 @@
         {% block content %}{% endblock %}
 
     </main>
-
 </div>
+<div id="modal-backdrop"></div>
+<div id="modal-container"></div>
 
+<div id="side-panel-backdrop"></div>
+<div id="side-panel"></div>
 </body>
 </html>

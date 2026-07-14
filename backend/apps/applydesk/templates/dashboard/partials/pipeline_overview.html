@@ -1,0 +1,19 @@
+<div class="card">
+    <h3>Pipeline</h3>
+
+    {% for item in pipeline %}
+
+        <div class="pipe-row">
+            <span class="pipe-label">{{ item.status }}</span>
+
+            <div class="pipe-bar-bg">
+                <div class="pipe-bar"
+                     style="width: {% widthratio item.count total_active 100 %}%">
+                </div>
+            </div>
+
+            <span class="pipe-count">{{ item.count }}</span>
+        </div>
+
+    {% endfor %}
+</div>

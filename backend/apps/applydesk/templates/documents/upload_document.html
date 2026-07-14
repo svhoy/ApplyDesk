@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>Upload Document</h1>
+
+    <form
+            hx-post="{% url 'upload_document' %}"
+            hx-encoding="multipart/form-data"
+            hx-target="#document-list"
+            hx-swap="innerHTML"
+    >
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button>
+            Upload
+        </button>
+
+    </form>
+
+    <div id="document-list">
+
+        {% include "documents/partials/document_list.html" %}
+
+    </div>
+
+{% endblock %}

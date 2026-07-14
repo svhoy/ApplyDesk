@@ -1,3 +1,5 @@
+from django.utils import timezone
+
 from apps.applydesk.models import ApplicationStatusHistory
 from apps.applydesk.services.applications.workflow import WORKFLOW_ACTIONS
 
@@ -14,9 +16,9 @@ def transition_application(application, new_status: str):
     old_status = application.status
 
     application.status = new_status
+    application.status_changed_at = timezone.now()
     application.save()
 
-    # 🧠 HISTORY WRITE
     ApplicationStatusHistory.objects.create(
         application=application,
         from_status=old_status,

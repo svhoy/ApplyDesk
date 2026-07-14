@@ -1,0 +1,21 @@
+<a href="{% url 'document_detail' document.id %}" class="card-link">
+
+    <div class="document-row">
+
+        <div class="document-info">
+            <div class="document-title">
+                {{ document.title }}
+            </div>
+
+            <div class="document-meta">
+                {{ document.get_document_type_display }}
+            </div>
+        </div>
+        <div class="card-action">
+            <span class="document-pill">
+                Open
+            </span>
+        </div>
+    </div>
+
+</a>

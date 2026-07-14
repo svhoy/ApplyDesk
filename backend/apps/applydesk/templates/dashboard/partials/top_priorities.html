@@ -1,0 +1,44 @@
+<div class="card">
+
+    <h3>Top Priorities</h3>
+
+    {% for item in top_priorities %}
+
+        <div class="priority-item">
+
+            <div>
+
+                <a href="{% url 'application_detail' item.application.pk %}">
+                    {{ item.application.position_title }}
+                </a>
+
+                <div class="muted">
+                    {{ item.application.company.name }}
+                </div>
+
+                <!-- EXPLANATION -->
+                <details class="score-details">
+                    <summary>Why?</summary>
+
+                    {% for b in item.breakdown %}
+
+                        <div class="score-breakdown-row">
+                            <span>{{ b.label }}</span>
+                            <span>+{{ b.value }}</span>
+                        </div>
+
+                    {% endfor %}
+
+                </details>
+
+            </div>
+
+            <div class="priority-score">
+                {{ item.score }}
+            </div>
+
+        </div>
+
+    {% endfor %}
+
+</div>

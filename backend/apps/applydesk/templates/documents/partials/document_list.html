@@ -1,0 +1,26 @@
+<div class="card">
+
+    <div class="card-header">
+        <h2>Uploaded Documents</h2>
+
+        {% include "documents/partials/upload_button.html" %}
+
+    </div>
+
+    <div class="card-body">
+
+        {% for document in documents %}
+
+            {% include "documents/partials/document_card.html" %}
+
+        {% empty %}
+
+            <div class="empty-state">
+                No documents uploaded yet.
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>

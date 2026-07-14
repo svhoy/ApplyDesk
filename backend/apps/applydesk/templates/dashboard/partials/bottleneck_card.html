@@ -1,0 +1,24 @@
+{% load applydesk_tags %}
+<div class="card">
+
+    <h3>Bottleneck</h3>
+
+    {% if bottleneck %}
+
+        <div class="bottleneck-status">
+            {{ bottleneck.status|title }}
+        </div>
+
+        <div class="muted">
+            Avg. {{ bottleneck.duration|format_duration_filter }}
+        </div>
+
+    {% else %}
+
+        <div class="muted">
+            Not enough data
+        </div>
+
+    {% endif %}
+
+</div>

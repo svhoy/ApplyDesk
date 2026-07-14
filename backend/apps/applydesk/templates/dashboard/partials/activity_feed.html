@@ -1,0 +1,29 @@
+<div class="card">
+
+    <h3>Recent Activity</h3>
+
+    <div class="activity-list">
+
+        {% for entry in activity %}
+
+            <div class="activity-item">
+
+                <div class="activity-title">
+                    {{ entry.application.position_title }}
+                </div>
+
+                <div class="activity-meta">
+                    {{ entry.from_status }} → {{ entry.to_status }}
+                </div>
+
+            </div>
+
+        {% empty %}
+
+            <div class="muted">No activity</div>
+
+        {% endfor %}
+
+    </div>
+
+</div>

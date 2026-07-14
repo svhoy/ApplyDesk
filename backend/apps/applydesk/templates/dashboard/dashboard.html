@@ -6,41 +6,28 @@
 
     <div class="dashboard-grid">
 
-        <div class="kpi-card">
-            <div class="label">Total Applications</div>
-            <div class="value">{{ total_applications }}</div>
+        <div class="dashboard-main">
+
+            {% include "dashboard/partials/kpi_overview.html" %}
+
+            {% include "dashboard/partials/pipeline_overview.html" %}
+
+            {% include "dashboard/partials/conversion_card.html" %}
+
+            {% include "dashboard/partials/top_priorities.html" %}
+
+            {% include "dashboard/partials/bottleneck_card.html" %}
+
         </div>
 
-        <div class="kpi-card">
-            <div class="label">Active Pipeline</div>
-            <div class="value">{{ active }}</div>
+        <div class="dashboard-sidebar">
+
+            {% include "dashboard/partials/activity_feed.html" %}
+
+            {% include "dashboard/partials/time_in_status.html" %}
+
         </div>
 
-        <div class="kpi-card">
-            <div class="label">Interviews</div>
-            <div class="value">{{ interviews }}</div>
-        </div>
-
-        <div class="kpi-card">
-            <div class="label">Offers</div>
-            <div class="value">{{ offers }}</div>
-        </div>
-
-        <div class="kpi-card">
-            <div class="label">Rejected</div>
-            <div class="value">{{ rejected }}</div>
-        </div>
-
-    </div>
-
-    <div class="card">
-        <h2>Pipeline Overview</h2>
-
-        <ul>
-            {% for status, count in status_map.items %}
-                <li>{{ status }}: {{ count }}</li>
-            {% endfor %}
-        </ul>
     </div>
 
 {% endblock %}

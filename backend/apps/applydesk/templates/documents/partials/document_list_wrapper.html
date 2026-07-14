@@ -1,0 +1,34 @@
+<div
+        id="document-list"
+        hx-swap-oob="outerHTML"
+>
+
+    {% include "documents/partials/document_list.html" %}
+
+</div>
+
+{% if action == "upload" %}
+
+    <div
+            id="upload-container"
+            hx-swap-oob="innerHTML"
+    >
+
+        {% include "documents/partials/upload_button.html" %}
+
+    </div>
+
+{% endif %}
+
+{% if action == "upload_more" %}
+
+    <div
+            id="upload-container"
+            hx-swap-oob="innerHTML"
+    >
+
+        {% include "documents/partials/upload_form.html" %}
+
+    </div>
+
+{% endif %}

@@ -1,0 +1,5 @@
+{% macro status_icon(is_done) %}
+
+    <span class="status-icon {% if is_done %}status-icon--success{% else %}status-icon--danger{% endif %}"></span>
+
+{% endmacro %}

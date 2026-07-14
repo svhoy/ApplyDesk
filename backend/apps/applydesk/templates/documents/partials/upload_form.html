@@ -1,0 +1,28 @@
+<div class="card">
+    <div class="flex justify-between">
+        <h3>Upload Document</h3>
+
+        <button type="button" onclick="closeModal()">
+            ✕
+        </button>
+    </div>
+    <form
+            hx-post="{% url 'upload_document' %}"
+            hx-target="#document-list"
+            hx-swap="outerHTML"
+    >
+
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit">
+            Upload
+        </button>
+
+        <button type="button" onclick="closeModal()">
+            Cancel
+        </button>
+
+    </form>
+
+</div>

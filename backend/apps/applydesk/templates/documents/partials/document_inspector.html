@@ -1,0 +1,60 @@
+<div class="side-panel">
+
+    <div class="panel-header">
+
+        <h2>{{ document.title }}</h2>
+
+        <button
+                type="button"
+                onclick="closeSidePanel()"
+        >
+            ✕
+        </button>
+
+    </div>
+
+    <div class="panel-body">
+
+        <div class="card">
+
+            <div>
+                <strong>Type:</strong>
+                {{ document.get_document_type_display }}
+            </div>
+
+            <div>
+                <strong>File:</strong>
+                <a href="{{ document.file.url }}" target="_blank">
+                    Download
+                </a>
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Linked Applications</h3>
+
+            {% for app in applications %}
+
+                <div class="row">
+
+                    <a href="{% url 'application_detail' app.id %}">
+                        {{ app.company.name }} — {{ app.position_title }}
+                    </a>
+
+                </div>
+
+            {% empty %}
+
+                <div class="muted">
+                    No linked applications
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>

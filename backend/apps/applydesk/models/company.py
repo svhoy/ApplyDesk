@@ -1,5 +1,11 @@
 from django.db import models
 
+PRIORITY_CHOICES = [
+    ("A", "A"),
+    ("B", "B"),
+    ("C", "C"),
+]
+
 
 class Company(models.Model):
     name = models.CharField(max_length=200)
@@ -11,6 +17,11 @@ class Company(models.Model):
     country = models.CharField(max_length=50, null=True, blank=True)
     url = models.URLField(null=True, blank=True)
     career_site = models.URLField(null=True, blank=True)
+    priority = models.CharField(
+        max_length=1,
+        choices=PRIORITY_CHOICES,
+        default="B",
+    )
 
     created_at = models.DateTimeField(
         auto_now_add=True,

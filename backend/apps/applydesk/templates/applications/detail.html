@@ -5,86 +5,36 @@
     <div class="detail-grid">
 
         <div class="detail-column">
-            <div id="application-card">
-                {% include "applications/partials/application_card.html" %}
-            </div>
-            <div class="card">
 
-                <h3>Details</h3>
+            {% include "applications/partials/detail/application_header.html" %}
 
-                <p>
-                    <strong>Location:</strong>
-                    {{ application.location|default:"-" }}
-                </p>
+            {% include "applications/partials/detail/application_status.html" %}
 
-                <p>
-                    <strong>Start Date:</strong>
-                    {{ application.start_date|default:"-" }}
-                </p>
+            {% include "applications/partials/detail/application_meta.html" %}
 
-                <p>
-                    <strong>URL:</strong>
-
-                    {% if application.url %}
-                        <a href="{{ application.url }}">
-                            Job Posting
-                        </a>
-                    {% else %}
-                        -
-                    {% endif %}
-                </p>
-
-            </div>
-
-            <div class="card">
-
-                <h3>Notes</h3>
-
-                {{ application.notes|default:"No notes available." }}
-
-            </div>
+            {% include "applications/partials/detail/application_notes.html" %}
+            
+            {% include "applications/partials/detail/completeness_card.html" %}
 
         </div>
 
         <div class="detail-sidebar">
 
-            <div class="card">
+            {% include "applications/partials/detail/company_card.html" %}
 
-                <h3>Company</h3>
+            {% include "applications/partials/detail/contact_card.html" %}
 
-                <p>{{ application.company.name }}</p>
+            {% include "applications/partials/detail/application_documents.html" %}
 
-                <p>{{ application.company.city|default:"-" }}</p>
-
-                <p>{{ application.company.country|default:"-" }}</p>
-
-            </div>
-
-            <div class="card">
-
-                <h3>Contact</h3>
-
-                <p>
-                    {{ application.contact_person|default:"-" }}
-                </p>
-
-                <p>
-                    {{ application.contact_email|default:"-" }}
-                </p>
-
-                <p>
-                    {{ application.contact_phone|default:"-" }}
-                </p>
-
-            </div>
             <div id="history-card" hx-swap-oob="true">
 
-                {% include "applications/partials/history_card.html" %}
+                {% include "applications/partials/detail/history_card.html" %}
 
             </div>
 
         </div>
 
     </div>
+
 
 {% endblock %}

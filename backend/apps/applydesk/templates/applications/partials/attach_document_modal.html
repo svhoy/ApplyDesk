@@ -1,0 +1,41 @@
+<div class="modal-overlay">
+
+    <div class="modal">
+
+        <h3>Attach Document</h3>
+
+        {% for doc in documents %}
+
+            <div class="document-row">
+
+                <span>{{ doc.title }}</span>
+
+                <button
+                        hx-post="{% url 'attach_document' application.id doc.id %}"
+                        hx-target=".doc-list"
+                        hx-swap="beforeend"
+                        hx-disabled-elt="this"
+                >
+                    Attach
+                </button>
+
+            </div>
+
+        {% empty %}
+
+            <div class="muted">
+                No available documents
+            </div>
+
+        {% endfor %}
+
+        <button
+                class="secondary"
+                onclick="document.getElementById('modal').innerHTML = ''"
+        >
+            Close
+        </button>
+
+    </div>
+
+</div>

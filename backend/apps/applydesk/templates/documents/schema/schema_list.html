@@ -1,0 +1,34 @@
+{% for schema in schemas %}
+
+    <div class="schema-row">
+
+        <div class="schema-info">
+
+            <div class="schema-title">
+                {{ schema.name }}
+            </div>
+
+            <div class="schema-meta">
+                {{ schema.document_type }}
+            </div>
+
+        </div>
+
+        <button
+                class="primary-button"
+                hx-get="{% url 'schema_editor' schema.id %}"
+                hx-target="#side-panel"
+                hx-swap="innerHTML"
+                onclick="openSidePanel()">
+            Edit
+        </button>
+
+    </div>
+
+{% empty %}
+
+    <div class="empty-state">
+        No schemas created yet
+    </div>
+
+{% endfor %}

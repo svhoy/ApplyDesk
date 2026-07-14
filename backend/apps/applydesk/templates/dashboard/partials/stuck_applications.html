@@ -1,0 +1,27 @@
+<div class="card">
+
+    <h3>Needs Attention</h3>
+
+    {% for app in stuck_applications %}
+
+        <div class="attention-item">
+
+            <a href="{% url 'application_detail' app.pk %}">
+                {{ app.position_title }}
+            </a>
+
+            <div class="muted">
+                {{ app.company.name }}
+            </div>
+
+        </div>
+
+    {% empty %}
+
+        <div class="muted">
+            Everything looks good.
+        </div>
+
+    {% endfor %}
+
+</div>

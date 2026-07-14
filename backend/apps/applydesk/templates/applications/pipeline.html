@@ -6,7 +6,7 @@
 
         {% for status in statuses %}
 
-            {% include "applications/partials/kanban_column.html" with status=status applications=columns|get_item:status %}
+            {% include "applications/partials/kanban/kanban_column.html" with status=status applications=columns|get_item:status %}
 
         {% endfor %}
 

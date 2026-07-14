@@ -1,0 +1,29 @@
+{% load applydesk_tags %}
+
+<div class="card">
+
+    <h3>Average Time in Status</h3>
+
+    {% for status, hours in avg_time_in_status.items %}
+
+        <div class="metric-row">
+
+            <span>
+                {{ status|title }}
+            </span>
+
+            <span>
+                {{ hours|duration_hours }}
+            </span>
+
+        </div>
+
+    {% empty %}
+
+        <div class="muted">
+            No data yet
+        </div>
+
+    {% endfor %}
+
+</div>

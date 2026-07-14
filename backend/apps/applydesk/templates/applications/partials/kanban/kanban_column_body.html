@@ -1,0 +1,13 @@
+{% load applydesk_tags %}
+
+{% for app in columns|get_item:status %}
+
+    {% include "applications/partials/kanban/kanban_card.html" %}
+
+{% empty %}
+
+    <div class="empty-column">
+        Drop application here
+    </div>
+
+{% endfor %}

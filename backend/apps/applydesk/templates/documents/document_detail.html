@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="page-header">
+
+        <h1>{{ document.title }}</h1>
+
+        <div class="muted">
+            {{ document.get_document_type_display }}
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h3>File</h3>
+
+        <a href="{{ document.file.url }}" target="_blank">
+            Download / Open
+        </a>
+
+    </div>
+
+    <div class="card">
+
+        <h3>Linked Applications</h3>
+
+        {% for app in applications %}
+
+            <div class="row">
+
+                <a href="{% url 'application_detail' app.id %}">
+                    {{ app.company.name }} - {{ app.position_title }}
+                </a>
+
+            </div>
+
+        {% empty %}
+
+            <div class="muted">
+                Not linked to any applications
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+{% endblock %}

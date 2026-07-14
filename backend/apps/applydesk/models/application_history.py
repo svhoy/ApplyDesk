@@ -10,7 +10,7 @@ class ApplicationStatusHistory(models.Model):
         related_name="history",
     )
 
-    from_status = models.CharField(max_length=30)
+    from_status = models.CharField(max_length=30, null=True, blank=True)
     to_status = models.CharField(max_length=30)
 
     created_at = models.DateTimeField(auto_now_add=True)

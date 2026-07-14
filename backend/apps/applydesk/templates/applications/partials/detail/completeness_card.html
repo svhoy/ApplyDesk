@@ -1,0 +1,77 @@
+<div class="card">
+
+    <h3>Application Readiness</h3>
+
+    <div class="metric-value">
+        {{ completeness }}%
+    </div>
+
+    <hr>
+
+    <div class="document-list">
+
+        {% for doc in document_state.documents %}
+
+            <div class="document-row">
+
+                <div class="document-info">
+
+
+                    <span class="status-icon {% if doc.attached %}status-icon--success{% else %}status-icon--danger{% endif %}">
+                    </span>
+
+                    <span>{{ doc.label }}</span>
+
+                </div>
+
+                {% if not doc.attached %}
+
+                    <button
+                            class="primary-button"
+                            hx-get="{% url 'upload_document_for_application' application.id %}?type={{ doc.type }}"
+                            hx-target="#modal-container"
+                            hx-swap="innerHTML"
+                            onclick="openModal()"
+                    >
+                        Upload
+                    </button>
+
+                    <button
+                            class="secondary-button"
+                            hx-get="{% url 'document_modal' application.id doc.type %}"
+                            hx-target="#modal-container"
+                            hx-swap="innerHTML"
+                            onclick="openModal()"
+                    >
+                        Generate
+                    </button>
+
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+    <hr>
+    {% if completeness == 100 %}
+
+        <div class="completion-state completion-state--success">
+            Application Complete
+        </div>
+
+    {% elif completeness >= 50 %}
+
+        <div class="completion-state completion-state--warning">
+            Almost there — just a few documents missing
+        </div>
+
+    {% else %}
+
+        <div class="completion-state completion-state--danger">
+            Application incomplete
+        </div>
+
+    {% endif %}
+
+</div>

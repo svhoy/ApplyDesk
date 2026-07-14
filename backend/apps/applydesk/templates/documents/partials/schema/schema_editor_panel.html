@@ -1,0 +1,69 @@
+<div class="side-panel open">
+
+    <div class="panel-header">
+        <div>
+            <h2>
+                {{ schema.name }}
+            </h2>
+            <div class="panel-subtitle">
+                Schema Editor
+            </div>
+        </div>
+
+        <button class="icon-button" onclick="closeSidePanel()">✕</button>
+    </div>
+
+    <div class="panel-body">
+
+        <!-- BASIC INFO -->
+        <section class="panel-section">
+            {% include "documents/partials/schema/schema_general_form.html" %}
+        </section>
+
+        <hr>
+
+        <!-- FIELD BUILDER -->
+        <section class="panel-section">
+            {% include "documents/partials/schema/schema_field_list.html" %}
+        </section>
+
+        <hr>
+
+        <!-- VERSION HISTORY -->
+        <section class="panel-section">
+
+            <h3>Versions</h3>
+
+            <!-- DRAFT -->
+            {% if draft %}
+                <div class="version-item active">
+                    <div class="version-title">
+                        Draft (v{{ draft.version }})
+                    </div>
+                    <div class="version-meta">
+                        Currently editing
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- PUBLISHED -->
+            {% for v in published_versions %}
+                <div class="version-item">
+                    <div class="version-title">
+                        v{{ v.version }}
+                    </div>
+                    <div class="version-meta">
+                        Published
+                    </div>
+                </div>
+            {% empty %}
+                <div class="empty-state">
+                    No published versions yet
+                </div>
+            {% endfor %}
+
+        </section>
+
+    </div>
+
+</div>

@@ -22,6 +22,30 @@
             {{ application.location|default:"No location" }}
         </div>
 
+        <div class="meta">
+
+            {% if application.completeness %}
+                <div class="progress-bar small">
+                    <div class="progress-bar-fill"
+                         style="width: {{ application.completeness }}%">
+                    </div>
+                </div>
+
+                <small class="muted">
+                    {{ application.completeness }}% complete
+                </small>
+            {% endif %}
+
+        </div>
+
+        {% if application.missing_document_count %}
+
+            <div class="meta text-danger">
+                {{ application.missing_document_count }} documents missing
+            </div>
+
+        {% endif %}
+
     </div>
 
 </a>

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="page-header">
+        <h1>Documents</h1>
+    </div>
+
+    <div class="page-sections">
+
+        <section class="page-section">
+            {% include "documents/partials/document_list.html" %}
+        </section>
+
+        <section class="page-section">
+            {% include "documents/partials/schema/schema_card.html" %}
+        </section>
+
+    </div>
+
+{% endblock %}

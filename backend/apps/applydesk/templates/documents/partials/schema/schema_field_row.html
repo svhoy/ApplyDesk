@@ -1,0 +1,62 @@
+<div id="field-{{ field.id }}"
+     class="schema-field-row">
+
+    <div>
+        <div class="schema-title">
+            {{ field.label }}
+        </div>
+
+        <div class="schema-meta">
+            {{ field.type }}
+        </div>
+    </div>
+
+    <div class="schema-actions">
+        {% if not forloop.first %}
+
+            <button
+                    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                    hx-post="{% url 'schema_field_move' schema.id field.id %}"
+                    hx-vals='{"index": "{{ forloop.counter0|add:"-1" }}"}'
+                    hx-target="#schema-fields"
+                    hx-swap="innerHTML">
+
+                ↑
+
+            </button>
+
+        {% endif %}
+        {% if not forloop.last %}
+
+            <button
+                    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                    hx-post="{% url 'schema_field_move' schema.id field.id %}"
+                    hx-vals='{"index": "{{ forloop.counter0|add:"1" }}"}'
+                    hx-target="#schema-fields"
+                    hx-swap="innerHTML">
+
+                ↓
+
+            </button>
+
+        {% endif %}
+
+        <button
+                class="icon-button"
+                hx-get="{% url 'schema_field_edit' schema.id field.id %}"
+                hx-target="#field-{{ field.id }}"
+                hx-swap="outerHTML">
+            Edit
+        </button>
+
+        <button
+                class="icon-button"
+                hx-delete="{% url 'schema_field_delete' schema.id field.id %}"
+                hx-target="#schema-field-list"
+                hx-swap="innerHTML">
+            Delete
+        </button>
+
+    </div>
+
+</div>

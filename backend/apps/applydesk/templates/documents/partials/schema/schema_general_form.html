@@ -1,0 +1,53 @@
+<div class="card">
+
+    <div class="card-header">
+        <h2>Schema Basics</h2>
+    </div>
+
+    <form method="post"
+          hx-post="{% if schema.id %}{% url 'schema_save' schema.id %}{% else %}{% url 'schema_create' %}{% endif %}"
+          hx-target="#side-panel"
+          hx-swap="innerHTML">
+
+        {% csrf_token %}
+
+        <div class="form-row">
+            {{ form.name.label_tag }}
+            {{ form.name }}
+        </div>
+
+        <div class="form-row">
+
+            {{ form.document_type.label_tag }}
+            {{ form.document_type }}
+
+        </div>
+
+        <div class="form-actions">
+            {% if is_create %}
+                <button class="primary-button">Save</button>
+            {% else %}
+
+                <button class="primary-button">Update</button>
+                <button
+                        type="button"
+                        class="secondary-button"
+                        hx-post="{% url 'schema_duplicate' schema.id %}"
+                        hx-target="#side-panel"
+                        hx-swap="innerHTML">
+                    Save as new
+                </button>
+                <button
+                        class="primary-button"
+                        hx-post="{% url 'schema_publish' schema.id %}"
+                        hx-target="#side-panel"
+                        hx-swap="innerHTML"
+                >
+                    Publish
+                </button>
+            {% endif %}
+        </div>
+
+    </form>
+
+</div>

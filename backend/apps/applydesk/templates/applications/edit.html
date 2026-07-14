@@ -28,39 +28,104 @@
 
                 <div class="form-grid">
 
-                    {{ form.position_title }}
+                    <!-- ROW 1 -->
+                    <div class="form-row">
+                        <label for="{{ form.position_title.id_for_label }}">
+                            Position Title
+                        </label>
+                        {{ form.position_title }}
+                    </div>
 
-                    {{ form.position_description }}
+                    <div class="form-row">
+                        <label for="{{ form.location.id_for_label }}">
+                            Location
+                        </label>
+                        {{ form.location }}
+                    </div>
 
-                    {{ form.location }}
+                    <!-- ROW 2 -->
+                    <div class="form-row">
+                        <label for="{{ form.url.id_for_label }}">
+                            Job URL
+                        </label>
+                        {{ form.url }}
+                    </div>
 
-                    {{ form.location_type }}
+                    <!-- ROW 3 -->
+                    <div class="form-row">
+                        <label for="{{ form.location_type.id_for_label }}">
+                            Location Type
+                        </label>
+                        {{ form.location_type }}
+                    </div>
 
-                    {{ form.url }}
 
-                    {{ form.start_date }}
+                    <div class="form-row">
+                        <label for="{{ form.start_date.id_for_label }}">
+                            Start Date
+                        </label>
+                        {{ form.start_date }}
+                    </div>
 
-                    {{ form.contact_person }}
 
-                    {{ form.contact_email }}
+                    <div class="form-row full">
+                        <label for="{{ form.position_description.id_for_label }}">
+                            Position Description
+                        </label>
+                        {{ form.position_description }}
+                    </div>
 
-                    {{ form.contact_phone }}
 
-                    <div class="full">
+                    <div class="form-row">
+                        <label for="{{ form.contact_person.id_for_label }}">
+                            Contact Person
+                        </label>
+                        {{ form.contact_person }}
+                    </div>
+
+                    <div class="form-row">
+                        <label for="{{ form.contact_email.id_for_label }}">
+                            Contact Email
+                        </label>
+                        {{ form.contact_email }}
+                    </div>
+
+                    <!-- ROW 5 -->
+                    <div class="form-row">
+                        <label for="{{ form.contact_phone.id_for_label }}">
+                            Contact Phone
+                        </label>
+                        {{ form.contact_phone }}
+                    </div>
+
+                    <div class="form-row full">
+
+                        <label>
+                            Required Documents
+                        </label>
+
+                        <div class="checkbox-group">
+
+                            {{ form.required_documents }}
+
+                        </div>
+
+                    </div>
+
+                    <!-- FULL WIDTH -->
+                    <div class="form-row full">
+                        <label for="{{ form.notes.id_for_label }}">
+                            Notes
+                        </label>
                         {{ form.notes }}
                     </div>
 
                 </div>
 
                 <div class="form-actions">
-
-                    <button
-                            type="submit"
-                            class="primary-button"
-                    >
+                    <button type="submit" class="primary-button">
                         Save
                     </button>
-
                 </div>
 
             </form>

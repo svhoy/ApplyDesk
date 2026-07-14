@@ -1,18 +1,20 @@
 from django.db import models
 
 from .company import Company
-from .file import FileAsset
+from .document import Document, DocumentType
 
 
 class Application(models.Model):
     STATUS_CHOICES = [
         ("saved", "Saved"),
+        ("pre_call", "Pre-screening call"),
         ("prepared", "Prepared"),
         ("applied", "Applied"),
         ("waiting", "Waiting"),
         ("interview", "Interview"),
         ("offer", "Offer"),
         ("rejected", "Rejected"),
+        ("closed", "Closed"),
         ("archived", "Archived"),
     ]
 
@@ -20,6 +22,13 @@ class Application(models.Model):
         ("remote", "Remote"),
         ("onsite", "On-site"),
         ("hybrid", "Hybrid"),
+    ]
+
+    PRIORITY_CHOICES = [
+        ("A", "A"),
+        ("B", "B"),
+        ("C", "C"),
+        ("I", "Initiative"),
     ]
 
     position_title = models.CharField(max_length=100)
@@ -53,15 +62,61 @@ class Application(models.Model):
         null=True,
         blank=True,
     )
+    priority = models.CharField(
+        max_length=1,
+        choices=PRIORITY_CHOICES,
+        default="B",
+    )
     created_at = models.DateTimeField(auto_now_add=True)
+    status_changed_at = models.DateTimeField(
+        auto_now_add=True,
+    )
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.position_title
 
 
-class ApplicationFile(models.Model):
-    application = models.ForeignKey(Application, on_delete=models.CASCADE)
-    file = models.ForeignKey(FileAsset, on_delete=models.CASCADE)
+class ApplicationDocument(models.Model):
+    application = models.ForeignKey(
+        "Application",
+        on_delete=models.CASCADE,
+        related_name="application_documents",
+    )
 
-    role = models.CharField(max_length=50)
+    document = models.ForeignKey(
+        "Document",
+        on_delete=models.CASCADE,
+        related_name="document_applications",
+    )
+
+    is_primary_cv = models.BooleanField(
+        default=False,
+    )
+
+    is_primary_cover_letter = models.BooleanField(
+        default=False,
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    class Meta:
+        unique_together = (
+            "application",
+            "document",
+        )
+
+    def __str__(self):
+        return f"{self.application_id} ↔ {self.document_id}"  # ty:ignore[unresolved-attribute]
+
+
+class ApplicationRequiredDocument(models.Model):
+    application = models.ForeignKey(
+        "Application",
+        on_delete=models.CASCADE,
+        related_name="required_documents",
+    )
+
+    document_type = models.CharField(max_length=50)

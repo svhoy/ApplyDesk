@@ -1,0 +1,18 @@
+<div
+        class="document-row"
+        id="doc-link-{{ link.id }}"
+>
+
+    <span>
+        {{ link.document.title }}
+    </span>
+
+    <button
+            hx-post="{% url 'detach_document' link.id %}"
+            hx-target="#doc-link-{{ link.id }}"
+            hx-swap="outerHTML"
+    >
+        Remove
+    </button>
+
+</div>

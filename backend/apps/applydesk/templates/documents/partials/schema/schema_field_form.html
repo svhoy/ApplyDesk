@@ -1,0 +1,65 @@
+<div class="card">
+
+    <div class="card-header">
+        <h3>
+            {% if is_edit %}
+                Edit Field
+            {% else %}
+                Add Field
+            {% endif %}
+        </h3>
+    </div>
+
+    <form
+            method="post"
+
+            {% if is_edit %}
+            hx-post="{% url 'schema_field_update' schema_id field_id %}"
+            hx-target="#field-{{ field_id }}"
+            hx-swap="outerHTML"
+            {% else %}
+            hx-post="{% url 'schema_field_store' schema_id %}"
+            hx-target="#schema-fields"
+            hx-swap="innerHTML"
+            {% endif %}
+    >
+
+        {% csrf_token %}
+
+        <div class="form-row">
+            {{ form.name.label_tag }}
+            {{ form.name }}
+        </div>
+
+        <div class="form-row">
+            {{ form.label.label_tag }}
+            {{ form.label }}
+        </div>
+
+        <div class="form-row">
+            {{ form.field_type.label_tag }}
+            {{ form.field_type }}
+        </div>
+
+        <div class="form-row">
+            {{ form.required.label_tag }}
+            {{ form.required }}
+        </div>
+
+        <div class="form-actions">
+            <button
+                    type="submit"
+                    class="primary-button">
+
+                {% if is_edit %}
+                    Update Field
+                {% else %}
+                    Add Field
+                {% endif %}
+
+            </button>
+        </div>
+
+    </form>
+
+</div>

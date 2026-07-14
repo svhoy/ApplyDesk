@@ -10,6 +10,12 @@ from apps.applydesk.views.application import (
     change_status,
     move_application,
 )
+from apps.applydesk.views.application_document import (
+    attach_document,
+    attach_document_modal,
+    detach_document,
+    upload_document_for_application,
+)
 from apps.applydesk.views.company import (
     company_create,
     company_delete,
@@ -18,6 +24,31 @@ from apps.applydesk.views.company import (
     company_list,
 )
 from apps.applydesk.views.dashboard import dashboard
+from apps.applydesk.views.document import (
+    document_detail,
+    document_inspector,
+    document_list,
+    document_upload_button,
+    document_upload_form,
+    generate_document_view,
+    open_document_modal,
+    upload_document,
+)
+from apps.applydesk.views.document_schema import (
+    schema_create,
+    schema_duplicate,
+    schema_editor,
+    schema_editor_new,
+    schema_field_delete,
+    schema_field_edit,
+    schema_field_form,
+    schema_field_move,
+    schema_field_store,
+    schema_field_update,
+    schema_list,
+    schema_publish,
+    schema_update,
+)
 from apps.applydesk.views.pipeline import application_pipeline
 
 urlpatterns = [
@@ -68,6 +99,11 @@ urlpatterns = [
         name="application_pipeline",
     ),
     path(
+        "applications/<int:application_id>/documents/upload/",
+        upload_document_for_application,
+        name="upload_document_for_application",
+    ),
+    path(
         "companies/",
         company_list,
         name="company_list",
@@ -80,4 +116,112 @@ urlpatterns = [
     path("companies/create/", company_create, name="company_create"),
     path("companies/<int:company_id>/edit/", company_edit, name="company_edit"),
     path("companies/<int:company_id>/delete/", company_delete, name="company_delete"),
+    path(
+        "documents/",
+        document_list,
+        name="document_list",
+    ),
+    path(
+        "documents/upload-form/",
+        document_upload_form,
+        name="document_upload_form",
+    ),
+    path(
+        "documents/upload-button/",
+        document_upload_button,
+        name="document_upload_button",
+    ),
+    path(
+        "documents/upload/",
+        upload_document,
+        name="upload_document",
+    ),
+    path(
+        "applications/<int:application_id>/documents/modal/",
+        attach_document_modal,
+        name="attach_document_modal",
+    ),
+    path(
+        "applications/<int:application_id>/documents/<int:document_id>/attach/",
+        attach_document,
+        name="attach_document",
+    ),
+    path(
+        "applications/documents/<int:link_id>/detach/",
+        detach_document,
+        name="detach_document",
+    ),
+    path(
+        "documents/<int:pk>/",
+        document_detail,
+        name="document_detail",
+    ),
+    path(
+        "documents/<int:pk>/inspector/",
+        document_inspector,
+        name="document_inspector",
+    ),
+    path(
+        "applications/<int:application_id>/documents/<str:document_type>/modal/",
+        open_document_modal,
+        name="document_modal",
+    ),
+    path(
+        "applications/<int:application_id>/documents/<str:document_type>/generate/",
+        generate_document_view,
+        name="generate_document",
+    ),
+    path("documents/schemas/editor/new/", schema_editor_new, name="schema_editor_new"),
+    path(
+        "documents/schemas/editor/<int:schema_id>/",
+        schema_editor,
+        name="schema_editor",
+    ),
+    path(
+        "documents/schemas/<int:schema_id>/fields/new/",
+        schema_field_form,
+        name="schema_field_form",
+    ),
+    path(
+        "documents/schemas/<int:schema_id>/fields/",
+        schema_field_store,
+        name="schema_field_store",
+    ),
+    path("documents/schemas/save/", schema_create, name="schema_create"),
+    path("documents/schemas/save/<int:schema_id>/", schema_update, name="schema_save"),
+    path(
+        "documents/schemas/<int:schema_id>/duplicate/",
+        schema_duplicate,
+        name="schema_duplicate",
+    ),
+    path(
+        "documents/schemas/list/",
+        schema_list,
+        name="schema_list",
+    ),
+    path(
+        "documents/schemas/<int:schema_id>/publish/",
+        schema_publish,
+        name="schema_publish",
+    ),
+    path(
+        "documents/schemas/<int:schema_id>/fields/<str:field_id>/edit/",
+        schema_field_edit,
+        name="schema_field_edit",
+    ),
+    path(
+        "documents/schemas/<int:schema_id>/fields/<str:field_id>/update/",
+        schema_field_update,
+        name="schema_field_update",
+    ),
+    path(
+        "documents/schemas/<int:schema_id>/fields/<str:field_id>/delete/",
+        schema_field_delete,
+        name="schema_field_delete",
+    ),
+    path(
+        "schemas/<int:schema_id>/fields/<str:field_id>/move/",
+        schema_field_move,
+        name="schema_field_move",
+    ),
 ]

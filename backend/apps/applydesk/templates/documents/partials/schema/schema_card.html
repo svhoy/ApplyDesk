@@ -1,0 +1,30 @@
+<div class="card">
+
+    <div class="card-header">
+        <div>
+            <h2>Document Schemas</h2>
+            <div class="card-subtitle">
+                Templates for generating structured documents
+            </div>
+        </div>
+
+        <button
+                class="secondary-button"
+                hx-get="{% url 'schema_editor_new' %}"
+                hx-target="#side-panel"
+                hx-swap="innerHTML"
+                onclick="openSidePanel()">
+            + New Schema
+        </button>
+    </div>
+
+    <div class="card-body">
+        <div id="schema-list"
+             hx-get="{% url 'schema_list' %}"
+             hx-trigger="schemaUpdated from:body"
+             hx-swap="innerHTML">
+            {% include "documents/partials/../schema/schema_list.html" %}
+        </div>
+    </div>
+
+</div>

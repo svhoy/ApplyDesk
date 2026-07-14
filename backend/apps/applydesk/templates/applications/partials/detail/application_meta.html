@@ -1,0 +1,27 @@
+<div class="card">
+
+    <h3>Details</h3>
+
+    <p>
+        <strong>Location:</strong>
+        {{ application.location|default:"-" }}
+    </p>
+
+    <p>
+        <strong>Start Date:</strong>
+        {{ application.start_date|default:"-" }}
+    </p>
+
+    <p>
+        <strong>URL:</strong>
+
+        {% if application.url %}
+            <a href="{{ application.url }}">
+                Job Posting
+            </a>
+        {% else %}
+            -
+        {% endif %}
+    </p>
+
+</div>

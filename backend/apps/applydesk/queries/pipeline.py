@@ -7,12 +7,12 @@ from apps.applydesk.services.applications.workflow import (
 
 PIPELINE_STATUSES = [
     "saved",
+    "pre_screen",
     "prepared",
     "applied",
     "waiting",
     "interview",
     "offer",
-    "rejected",
 ]
 
 

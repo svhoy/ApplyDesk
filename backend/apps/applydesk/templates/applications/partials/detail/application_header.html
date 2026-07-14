@@ -1,0 +1,30 @@
+<div class="card">
+
+    <div class="card-header">
+
+        <div class="card-header-left">
+
+            <div class="title">
+                {{ application.position_title }}
+            </div>
+
+            <div class="muted">
+                {{ application.company.name }}
+            </div>
+
+        </div>
+
+        <div class="card-header-right">
+
+            <a
+                    href="{% url 'application_edit' application.pk %}"
+                    class="primary-button"
+            >
+                Edit
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

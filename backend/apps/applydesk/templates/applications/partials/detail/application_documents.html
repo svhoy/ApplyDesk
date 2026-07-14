@@ -1,0 +1,38 @@
+<div class="card" id="application-documents">
+
+    <h3>Documents</h3>
+
+    {% for link in application.application_documents.all %}
+
+        <div class="document-row">
+
+            <button
+                    class="document-button"
+                    hx-get="{% url 'document_inspector' link.document.id %}"
+                    hx-target="#side-panel"
+                    hx-swap="innerHTML"
+            >
+                {{ link.document.title }}
+            </button>
+
+        </div>
+
+    {% empty %}
+
+        <div class="muted">
+            No documents attached
+        </div>
+
+    {% endfor %}
+
+    <button
+            class="secondary-button"
+            hx-get="{% url 'upload_document_for_application' application.id %}"
+            hx-target="#modal-container"
+            hx-swap="innerHTML"
+            onclick="openModal()"
+    >
+        Upload Document
+    </button>
+
+</div>
