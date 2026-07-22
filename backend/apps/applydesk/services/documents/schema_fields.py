@@ -1,16 +1,42 @@
 from copy import deepcopy
 from uuid import uuid4
 
+ALLOWED_FIELD_ATTRIBUTES = {
+    "name",
+    "label",
+    "type",
+    "required",
+}
+
+
+# private helper
+def save_schema_data(version, data):
+    version.data = data
+    version.save(update_fields=["data"])
+    return version
+
+
+def normalize_fields(fields):
+
+    for index, field in enumerate(fields):
+        field["position"] = index
+
+    return fields
+
 
 def _get_fields(version):
+
     data = deepcopy(version.data or {})
 
     if "fields" not in data:
         data["fields"] = []
 
+    normalize_fields(data["fields"])
+
     return data
 
 
+# public API
 def append_field(
     version,
     *,
@@ -31,10 +57,12 @@ def append_field(
         }
     )
 
-    version.data = data
-    version.save(update_fields=["data"])
+    normalize_fields(data["fields"])
 
-    return version
+    return save_schema_data(
+        version,
+        data,
+    )
 
 
 def get_field(version, field_id):
@@ -55,13 +83,19 @@ def update_field(
 
     for field in data["fields"]:
         if field["id"] == field_id:
-            field.update(changes)
+            field.update(
+                {
+                    key: value
+                    for key, value in changes.items()
+                    if key in ALLOWED_FIELD_ATTRIBUTES
+                }
+            )
             break
 
-    version.data = data
-    version.save(update_fields=["data"])
-
-    return version
+    return save_schema_data(
+        version,
+        data,
+    )
 
 
 def delete_field(
@@ -72,11 +106,11 @@ def delete_field(
     data = _get_fields(version)
 
     data["fields"] = [field for field in data["fields"] if field["id"] != field_id]
-
-    version.data = data
-    version.save(update_fields=["data"])
-
-    return version
+    normalize_fields(data["fields"])
+    return save_schema_data(
+        version,
+        data,
+    )
 
 
 def move_field(
@@ -108,8 +142,8 @@ def move_field(
         new_index,
         field,
     )
-
-    version.data = data
-    version.save(update_fields=["data"])
-
-    return version
+    normalize_fields(fields)
+    return save_schema_data(
+        version,
+        data,
+    )

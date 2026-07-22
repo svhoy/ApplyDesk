@@ -1,4 +1,7 @@
+import re
+
 from django import forms
+from django.core.exceptions import ValidationError
 
 from apps.applydesk.models import DocumentSchema
 from apps.applydesk.models.document import DocumentType
@@ -33,3 +36,15 @@ class DocumentSchemaFieldForm(forms.Form):
     required = forms.BooleanField(
         required=False,
     )
+
+    def clean_name(self):
+
+        name = self.cleaned_data["name"]
+
+        if not re.match(
+            r"^[a-z][a-z0-9_]*$",
+            name,
+        ):
+            raise ValidationError("Field name must be snake_case.")
+
+        return name

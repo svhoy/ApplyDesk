@@ -1,34 +1,60 @@
-{% for schema in schemas %}
+<div class="schema-list">
 
-    <div class="schema-row">
+    {% for schema in schemas %}
 
-        <div class="schema-info">
 
-            <div class="schema-title">
-                {{ schema.name }}
+        <div class="schema-row"
+             hx-get="{% url 'schema_editor' schema.id %}"
+             hx-target="#side-panel"
+             hx-swap="innerHTML"
+             onclick="openSidePanel()">
+
+            <div class="schema-info">
+                <div class="schema-title">
+                    {{ schema.name }}
+                </div>
+
+                <div class="schema-meta">
+                    {{ item.schema.document_type }}
+                </div>
+
+                <div class="actions">
+                    {% if draft %}
+                        <span class="badge badge--prepared">
+                        Draft
+                    </span>
+                    {% endif %}
+
+                    {% if published %}
+                        <span class="badge badge--saved">
+                        Published v{{ published.version }}
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
             </div>
 
-            <div class="schema-meta">
-                {{ schema.document_type }}
+            <div class="card-header-right">
+                <button
+                        class="primary-button"
+                        hx-get="{% url 'schema_editor' schema.id %}"
+                        hx-target="#side-panel"
+                        hx-swap="innerHTML"
+                        onclick="event.stopPropagation(); openSidePanel()">
+
+                    Edit
+
+                </button>
             </div>
 
         </div>
 
-        <button
-                class="primary-button"
-                hx-get="{% url 'schema_editor' schema.id %}"
-                hx-target="#side-panel"
-                hx-swap="innerHTML"
-                onclick="openSidePanel()">
-            Edit
-        </button>
+    {% empty %}
 
-    </div>
-
-{% empty %}
-
-    <div class="empty-state">
-        No schemas created yet
-    </div>
-
-{% endfor %}
+        <div class="empty-state">
+            No schemas created yet
+        </div>
+    {% endfor %}
+</div>

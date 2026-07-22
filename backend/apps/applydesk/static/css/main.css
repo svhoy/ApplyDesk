@@ -475,6 +475,12 @@ body {
 /* =========================
    SCHEMA
 ========================= */
+.schema-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
 .schema-row {
     display: flex;
     justify-content: space-between;
@@ -677,6 +683,7 @@ body {
     margin-top: var(--space-lg);
     display: flex;
     justify-content: flex-end;
+    gap: var(--space-sm);
 }
 
 .panel-section {
@@ -806,6 +813,7 @@ textarea {
     display: flex;
     justify-content: flex-end;
     margin-top: var(--space-lg);
+    gap: var(--space-sm);
 }
 
 /* =========================

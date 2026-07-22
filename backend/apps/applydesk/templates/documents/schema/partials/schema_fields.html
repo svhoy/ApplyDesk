@@ -1,0 +1,17 @@
+<div id="schema-fields">
+
+    {% if fields %}
+
+        {% for field in fields %}
+
+            {% include "documents/schema/partials/schema_field_card.html" %}
+
+        {% endfor %}
+
+    {% else %}
+
+        {% include "documents/schema/partials/schema_field_empty.html" %}
+
+    {% endif %}
+
+</div>

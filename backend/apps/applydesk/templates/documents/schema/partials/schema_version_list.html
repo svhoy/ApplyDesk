@@ -1,0 +1,60 @@
+<div class="panel-section">
+    <div class="section-header">
+        <h3 class="section-title">
+            Publishing
+        </h3>
+    </div>
+
+    {% if draft %}
+        <div class="version-item active">
+            <div>
+                Draft
+            </div>
+
+            <div class="schema-meta">
+                Currently editing
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="panel-actions">
+        <button
+                class="secondary-button"
+                hx-post="{% url 'schema_duplicate' schema.id %}"
+                hx-target="#side-panel"
+                hx-swap="innerHTML">
+            Save as new
+        </button>
+
+        <button
+                class="primary-button"
+                hx-post="{% url 'schema_publish' schema.id %}"
+                hx-target="#side-panel"
+                hx-swap="innerHTML">
+
+            Publish
+        </button>
+    </div>
+
+    <div class="section-header">
+        <h3 class="section-title">
+            Published Versions
+        </h3>
+    </div>
+
+    {% for version in published_versions %}
+        <div class="version-item">
+            <div>
+                Version {{ version.version }}
+            </div>
+
+            <div class="schema-meta">
+                Published
+            </div>
+        </div>
+    {% empty %}
+        <div class="empty-state">
+            No published versions yet
+        </div>
+    {% endfor %}
+</div>

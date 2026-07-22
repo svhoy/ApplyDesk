@@ -1,0 +1,43 @@
+<div class="side-panel open">
+
+    <div class="panel-header">
+        <div>
+            <h2>
+                {{ schema.name|default:"New Schema" }}
+            </h2>
+
+            <div class="panel-subtitle">
+                Schema Editor
+            </div>
+
+        </div>
+
+        <button
+                class="icon-button"
+                onclick="closeSidePanel()">
+
+            ✕
+        </button>
+    </div>
+
+
+    <div class="panel-body">
+        <section class="panel-section">
+            {% include "documents/schema/partials/schema_general_form.html" %}
+        </section>
+
+        <section class="panel-section">
+            <div class="section-header">
+                <h3 class="section-title">
+                    Fields
+                </h3>
+            </div>
+            {% include "documents/schema/partials/schema_field_list.html" %}
+        </section>
+
+        <section class="panel-section">
+            {% include "documents/schema/partials/schema_version_list.html" %}
+        </section>
+    </div>
+
+</div>

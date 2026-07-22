@@ -1,19 +1,9 @@
-from copy import deepcopy
-
-import pytest
-
 from apps.applydesk.services.documents.schema import (
     create_schema,
     duplicate_schema,
     update_schema,
 )
 from apps.applydesk.services.documents.schema_publish import publish_schema
-from apps.applydesk.services.documents.schema_version import (
-    create_schema_version,
-)
-from apps.applydesk.services.documents.schema_versioning import (
-    get_or_create_draft,
-)
 
 
 def test_create_schema(db):
@@ -22,7 +12,7 @@ def test_create_schema(db):
         document_type="cv",
     )
 
-    version = schema.draft_version()
+    version = schema.draft_version
 
     print(schema.versions.values("status", "version", "data"))  # ty:ignore[unresolved-attribute]
 
@@ -57,7 +47,7 @@ def test_duplicate_schema(db):
     )
 
     # Draft Version anlegen
-    draft = schema.draft_version()
+    draft = schema.draft_version
 
     draft.data = {
         "fields": [
@@ -71,9 +61,8 @@ def test_duplicate_schema(db):
     draft.save()
 
     duplicate = duplicate_schema(schema=schema)
-    print(duplicate.draft_version().data)
-    dup_draft = duplicate.draft_version()
-    print(f"Draft Data{dup_draft.data}")
+    dup_draft = duplicate.draft_version
+
     assert dup_draft is not None
     assert dup_draft.data == draft.data
 
@@ -84,19 +73,19 @@ def test_duplicate_schema_does_not_share_reference(db):
         document_type="cv",
     )
 
-    draft = schema.draft_version()
+    draft = schema.draft_version
     draft.data = {"fields": [{"name": "a"}]}
     draft.save()
 
     duplicate = duplicate_schema(schema=schema)
 
-    dup_draft = duplicate.draft_version()
+    dup_draft = duplicate.draft_version
 
     # Mutation darf NICHT shared sein
     dup_draft.data["fields"].append({"name": "b"})
     dup_draft.save()
 
-    original_draft = schema.draft_version()
+    original_draft = schema.draft_version
 
     assert len(original_draft.data["fields"]) == 1
 
@@ -111,8 +100,8 @@ def test_duplicate_schema_has_own_draft(db):
 
     assert schema.pk != duplicate.pk
 
-    assert duplicate.draft_version() is not None
-    assert duplicate.draft_version().status == "draft"
+    assert duplicate.draft_version is not None
+    assert duplicate.draft_version.status == "draft"
 
 
 def test_publish_schema(db):
@@ -121,23 +110,26 @@ def test_publish_schema(db):
         document_type="cv",
     )
 
-    draft = schema.latest_version()
+    draft = schema.latest_version
 
     draft.data = {
         "fields": [
             {
                 "name": "title",
+                "label": "Title",
+                "type": "text",
             }
         ]
     }
 
     draft.save()
-    publish_schema(schema=schema)
-    published = schema.latest_published_version()
+    test = publish_schema(schema=schema)
+    published = schema.latest_published_version
+    print(test)
     assert published.version == 1
     assert published.status == "published"
 
-    new_draft = schema.latest_version()
+    new_draft = schema.latest_version
 
     assert new_draft is not None
     assert new_draft.pk != draft.pk

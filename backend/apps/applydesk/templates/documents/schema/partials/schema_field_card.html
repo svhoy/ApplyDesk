@@ -1,62 +1,82 @@
-<div id="field-{{ field.id }}"
-     class="schema-field-row">
+<div
+        id="field-{{ field.id }}"
+        class="schema-field-row">
 
-    <div>
+    <div class="schema-info">
         <div class="schema-title">
             {{ field.label }}
         </div>
 
         <div class="schema-meta">
+            {{ field.name }}
+
+            ·
+
             {{ field.type }}
         </div>
+
+        {% if field.required %}
+            <div>
+                <span class="badge badge--prepared">
+                    Required
+                </span>
+            </div>
+        {% else %}
+            <div>
+                <span class="badge">
+                    Optional
+                </span>
+            </div>
+        {% endif %}
     </div>
 
-    <div class="schema-actions">
+    <div class="actions">
         {% if not forloop.first %}
-
             <button
+                    class="icon-button"
                     hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                     hx-post="{% url 'schema_field_move' schema.id field.id %}"
-                    hx-vals='{"index": "{{ forloop.counter0|add:"-1" }}"}'
+                    hx-vals='{
+                        "index": "{{ forloop.counter0|add:"-1" }}"
+                    }'
                     hx-target="#schema-fields"
                     hx-swap="innerHTML">
-
                 ↑
-
             </button>
-
         {% endif %}
-        {% if not forloop.last %}
 
+        {% if not forloop.last %}
             <button
+                    class="icon-button"
                     hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                     hx-post="{% url 'schema_field_move' schema.id field.id %}"
-                    hx-vals='{"index": "{{ forloop.counter0|add:"1" }}"}'
+                    hx-vals='{
+                        "index": "{{ forloop.counter0|add:"1" }}"
+                    }'
                     hx-target="#schema-fields"
                     hx-swap="innerHTML">
 
                 ↓
-
             </button>
-
         {% endif %}
 
         <button
                 class="icon-button"
                 hx-get="{% url 'schema_field_edit' schema.id field.id %}"
-                hx-target="#field-{{ field.id }}"
-                hx-swap="outerHTML">
+                hx-target="#schema-field-form"
+                hx-swap="innerHTML">
+
             Edit
         </button>
 
         <button
                 class="icon-button"
                 hx-delete="{% url 'schema_field_delete' schema.id field.id %}"
-                hx-target="#schema-field-list"
+                hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                hx-target="#schema-fields"
                 hx-swap="innerHTML">
+
             Delete
         </button>
-
     </div>
-
 </div>

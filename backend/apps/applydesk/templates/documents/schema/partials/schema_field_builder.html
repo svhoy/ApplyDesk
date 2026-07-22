@@ -1,0 +1,24 @@
+<div class="card">
+    <div class="card-header">
+        <div>
+            <h3>Fields</h3>
+            <div class="card-subtitle">
+                Configure the document structure
+            </div>
+        </div>
+
+        {% if schema.pk %}
+            <button
+                    class="secondary-button"
+                    hx-get="{% url 'schema_field_form' schema.pk %}"
+                    hx-target="#schema-field-form"
+                    hx-swap="innerHTML">
+                + Add Field
+            </button>
+        {% endif %}
+    </div>
+
+    {% include "documents/schema/partials/schema_field_list.html" %}
+</div>
+
+<div id="schema-field-form"></div>

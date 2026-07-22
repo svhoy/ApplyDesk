@@ -1,10 +1,7 @@
 from copy import deepcopy
 
 from apps.applydesk.models import DocumentSchema
-from apps.applydesk.models.document import DocumentSchemaVersionStatus
-from apps.applydesk.services.documents.schema_version import (
-    create_schema_version,
-)
+from apps.applydesk.models.versioned import VersionStatus
 from apps.applydesk.services.documents.schema_versioning import get_or_create_draft
 
 
@@ -50,10 +47,9 @@ def duplicate_schema(*, schema):
         document_type=schema.document_type,
     )
 
-    old_version = schema.draft_version() or schema.latest_version()
+    old_version = schema.draft_version or schema.latest_version
 
-    # EXISTIERENDE Draft Version holen (die aus create_schema)
-    new_draft = new_schema.draft_version()
+    new_draft = new_schema.draft_version
 
     # NUR UPDATE, NICHT NEU ERZEUGEN
     new_draft.data = deepcopy(old_version.data if old_version else {"fields": []})
@@ -63,12 +59,12 @@ def duplicate_schema(*, schema):
 
 
 def publish_version(schema):
-    draft = schema.draft_version()
+    draft = schema.draft_version
 
     if not draft:
         return None
 
-    draft.status = DocumentSchemaVersionStatus.PUBLISHED
+    draft.status = VersionStatus.PUBLISHED
     draft.save(update_fields=["status"])
 
     # neue Draft erzeugen

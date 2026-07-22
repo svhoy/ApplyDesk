@@ -1,7 +1,6 @@
-<div class="card">
-
-    <div class="card-header">
-        <h3>
+<div class="panel-section">
+    <div class="section-header">
+        <h3 class="section-title">
             {% if is_edit %}
                 Edit Field
             {% else %}
@@ -11,42 +10,59 @@
     </div>
 
     <form
+            class="form"
             method="post"
 
             {% if is_edit %}
+
             hx-post="{% url 'schema_field_update' schema_id field_id %}"
-            hx-target="#field-{{ field_id }}"
-            hx-swap="outerHTML"
+
             {% else %}
+
             hx-post="{% url 'schema_field_store' schema_id %}"
-            hx-target="#schema-fields"
-            hx-swap="innerHTML"
+
             {% endif %}
-    >
+
+            hx-target="#schema-fields"
+            hx-swap="innerHTML">
 
         {% csrf_token %}
 
         <div class="form-row">
             {{ form.name.label_tag }}
+
             {{ form.name }}
         </div>
 
         <div class="form-row">
             {{ form.label.label_tag }}
+
             {{ form.label }}
         </div>
 
         <div class="form-row">
             {{ form.field_type.label_tag }}
+
             {{ form.field_type }}
         </div>
 
-        <div class="form-row">
-            {{ form.required.label_tag }}
-            {{ form.required }}
+        <div class="checkbox-group">
+            <div class="checkbox-item">
+                {{ form.required }}
+
+                {{ form.required.label_tag }}
+            </div>
         </div>
 
         <div class="form-actions">
+            <button
+                    type="button"
+                    class="secondary-button"
+                    onclick="this.closest('#schema-field-form').innerHTML=''">
+
+                Cancel
+            </button>
+
             <button
                     type="submit"
                     class="primary-button">
@@ -56,10 +72,7 @@
                 {% else %}
                     Add Field
                 {% endif %}
-
             </button>
         </div>
-
     </form>
-
 </div>

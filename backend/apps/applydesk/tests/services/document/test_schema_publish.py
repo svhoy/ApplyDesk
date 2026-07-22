@@ -1,4 +1,4 @@
-from apps.applydesk.models.document import DocumentSchemaVersionStatus
+from apps.applydesk.models.versioned import VersionStatus
 from apps.applydesk.services.documents.schema import create_schema
 from apps.applydesk.services.documents.schema_fields import append_field
 from apps.applydesk.services.documents.schema_publish import publish_schema
@@ -11,7 +11,7 @@ def test_publish_schema_creates_new_draft(db):
         document_type="cv",
     )
 
-    version = schema.draft_version()
+    version = schema.draft_version
 
     append_field(
         version,
@@ -29,11 +29,11 @@ def test_publish_schema_creates_new_draft(db):
 
     schema.refresh_from_db()
 
-    published = schema.latest_published_version()
-    draft = schema.draft_version()
+    published = schema.latest_published_version
+    draft = schema.draft_version
 
-    assert published.status == DocumentSchemaVersionStatus.PUBLISHED
-    assert draft.status == DocumentSchemaVersionStatus.DRAFT
+    assert published.status == VersionStatus.PUBLISHED
+    assert draft.status == VersionStatus.DRAFT
 
     assert published.version == 1
     assert draft.version == 2
@@ -64,7 +64,7 @@ def test_publish_does_not_delete_old_version(db):
         document_type="cv",
     )
 
-    version = schema.draft_version()
+    version = schema.draft_version
 
     append_field(
         version,

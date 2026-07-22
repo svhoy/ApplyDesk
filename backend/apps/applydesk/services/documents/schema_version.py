@@ -13,7 +13,7 @@ def create_schema_version(
     version=None,
 ):
     if version is None:
-        latest = schema.latest_version()
+        latest = schema.latest_version
 
         version = 1 if latest is None else latest.version + 1
 

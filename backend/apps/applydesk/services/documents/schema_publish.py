@@ -19,7 +19,7 @@ def publish_schema(*, schema):
             "errors": errors,
         }
 
-    draft = schema.draft_version()
+    draft = schema.draft_version
 
     if not draft:
         return {

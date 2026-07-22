@@ -1,5 +1,6 @@
 from django.db import models
 
+from apps.applydesk.models.versioned import BaseVersion, VersionedModel, VersionStatus
 from apps.applydesk.services.documents.storage import (
     document_upload_path,
 )
@@ -80,13 +81,7 @@ class DocumentDraft(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-class DocumentSchemaVersionStatus(models.TextChoices):
-    DRAFT = "draft", "Draft"
-    PUBLISHED = "published", "Published"
-    ARCHIVED = "archived", "Archived"
-
-
-class DocumentSchema(models.Model):
+class DocumentSchema(VersionedModel):
     name = models.CharField(max_length=255)
 
     document_type = models.CharField(
@@ -94,45 +89,36 @@ class DocumentSchema(models.Model):
         choices=DocumentType.choices,
     )
     schema = models.JSONField(default=dict)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
+    @property
     def draft_version(self):
-        return self.versions.filter(status=DocumentSchemaVersionStatus.DRAFT).first()  # ty:ignore[unresolved-attribute]
+        return self.versions.filter(status=VersionStatus.DRAFT).first()  # ty:ignore[unresolved-attribute]
 
+    @property
     def latest_published_version(self):
         return (
-            self.versions.filter(status=DocumentSchemaVersionStatus.PUBLISHED)  # ty:ignore[unresolved-attribute]
+            self.versions.filter(status=VersionStatus.PUBLISHED)  # ty:ignore[unresolved-attribute]
             .order_by("-version")
             .first()
         )
 
+    @property
     def published_versions(self):
         return self.versions.filter(  # ty:ignore[unresolved-attribute]
-            status=DocumentSchemaVersionStatus.PUBLISHED
+            status=VersionStatus.PUBLISHED
         ).order_by("-version")
 
+    @property
     def latest_version(self):
         return self.versions.order_by("-version").first()  # ty:ignore[unresolved-attribute]
 
 
-class DocumentSchemaVersion(models.Model):
+class DocumentSchemaVersion(BaseVersion):
     schema = models.ForeignKey(
         "DocumentSchema",
         on_delete=models.CASCADE,
         related_name="versions",
     )
-
-    version = models.PositiveIntegerField(null=True, blank=True)
-
-    data = models.JSONField(default=dict)
-
-    status = models.CharField(
-        choices=DocumentSchemaVersionStatus.choices,
-        max_length=20,
-        default=DocumentSchemaVersionStatus.DRAFT,
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         indexes = [

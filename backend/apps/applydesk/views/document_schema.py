@@ -1,5 +1,6 @@
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, render
+from django.views.decorators.http import require_http_methods, require_POST
 
 from apps.applydesk.forms.document_schema import (
     DocumentSchemaFieldForm,
@@ -28,15 +29,19 @@ from apps.applydesk.services.documents.schema_versioning import (
 )
 
 
-def _field_index(
-    version,
-    field_id,
-):
-    for index, field in enumerate(version.data.get("fields", [])):
-        if field["id"] == field_id:
-            return index
+def render_schema_fields(request, schema):
 
-    return None
+    draft = schema.draft_version
+
+    return render(
+        request,
+        "documents/schema/partials/schema_field_list.html",
+        {
+            "schema": schema,
+            "draft": draft,
+            "fields": draft.data.get("fields", []),
+        },
+    )
 
 
 def schema_editor_new(request):
@@ -44,7 +49,7 @@ def schema_editor_new(request):
 
     return render(
         request,
-        "documents/partials/schema/schema_editor_panel.html",
+        "documents/schema/partials/schema_editor_panel.html",
         {
             "schema": None,
             "form": form,
@@ -63,7 +68,7 @@ def schema_create(request):
         if not form.is_valid():
             return render(
                 request,
-                "documents/partials/schema/schema_general_form.html",
+                "documents/schema/partials/schema_general_form.html",
                 {
                     "form": form,
                 },
@@ -77,7 +82,7 @@ def schema_create(request):
 
         response = render(
             request,
-            "documents/partials/schema/schema_editor_panel.html",
+            "documents/schema/partials/schema_editor_panel.html",
             {
                 "schema": schema,
                 "version": version,
@@ -91,7 +96,7 @@ def schema_create(request):
 
     return render(
         request,
-        "documents/partials/schema/schema_general_form.html",
+        "documents/schema/partials/schema_general_form.html",
         {
             "form": DocumentSchemaGeneralForm(),
         },
@@ -111,11 +116,11 @@ def schema_update(request, schema_id):
                 document_type=form.cleaned_data["document_type"],
             )
 
-    version = schema.latest_version()
+    version = schema.latest_version
 
     response = render(
         request,
-        "documents/partials/schema/schema_editor_panel.html",
+        "documents/schema/partials/schema_editor_panel.html",
         {
             "schema": schema,
             "version": version,
@@ -141,7 +146,7 @@ def schema_duplicate(request, schema_id):
 
     return render(
         request,
-        "documents/partials/schema/schema_editor_panel.html",
+        "documents/schema/partials/schema_editor_panel.html",
         {
             "schema": duplicate,
             "version": version,
@@ -160,7 +165,7 @@ def schema_field_form(
 
     return render(
         request,
-        "documents/partials/schema/schema_field_form.html",
+        "documents/schema/partials/schema_field_form.html",
         {
             "form": form,
             "schema_id": schema_id,
@@ -177,7 +182,7 @@ def schema_field_create(request, schema_id):
 
     return render(
         request,
-        "documents/partials/schema/schema_field_form.html",
+        "documents/schema/partials/schema_field_form.html",
         {
             "form": form,
             "schema": schema,
@@ -189,46 +194,22 @@ def schema_field_create(request, schema_id):
 def schema_editor(request, schema_id):
     schema = get_object_or_404(DocumentSchema, pk=schema_id)
 
-    version = schema.latest_version()
+    draft = schema.draft_version
+
+    form = DocumentSchemaGeneralForm(
+        instance=schema,
+    )
 
     return render(
         request,
-        "documents/partials/schema/schema_editor_panel.html",
+        "documents/schema/partials/schema_editor_panel.html",
         {
             "schema": schema,
-            "version": version,
-            "fields": version.data.get("fields", []),
-            "published_versions": schema.published_versions(),
+            "form": form,
+            "draft": draft,
+            "published_versions": schema.published_versions,
+            "fields": draft.data.get("fields", []),
             "is_create": False,
-        },
-    )
-
-
-def schema_field_store(request, schema_id):
-    schema = get_object_or_404(
-        DocumentSchema,
-        pk=schema_id,
-    )
-
-    version = schema.draft_version()
-
-    form = DocumentSchemaFieldForm(request.POST)
-
-    if form.is_valid():
-        append_field(
-            version,
-            name=form.cleaned_data["name"],
-            label=form.cleaned_data["label"],
-            field_type=form.cleaned_data["field_type"],
-            required=form.cleaned_data["required"],
-        )
-
-    return render(
-        request,
-        "documents/partials/schema/schema_field_list.html",
-        {
-            "schema": schema,
-            "fields": version.data.get("fields", []),
         },
     )
 
@@ -238,7 +219,7 @@ def schema_list(request):
 
     return render(
         request,
-        "documents/partials/../templates/documents/schema_list.html",
+        "documents/schema/schema_list.html",
         {
             "schemas": schemas,
         },
@@ -262,7 +243,7 @@ def schema_publish(
     if not result["success"]:
         return render(
             request,
-            "documents/partials/schema_publish_errors.html",
+            "documents/schema/partials/schema_publish_errors.html",
             {
                 "errors": result["errors"],
             },
@@ -270,11 +251,11 @@ def schema_publish(
 
     return render(
         request,
-        "documents/partials/schema/schema_editor_panel.html",
+        "documents/schema/partials/schema_editor_panel.html",
         {
             "schema": schema,
-            "version": schema.draft_version(),
-            "fields": schema.draft_version().data.get("fields", []),
+            "version": schema.draft_version,
+            "fields": schema.draft_version.data.get("fields", []),
         },
     )
 
@@ -289,7 +270,7 @@ def schema_field_edit(
         pk=schema_id,
     )
 
-    version = schema.draft_version()
+    version = schema.draft_version
 
     field = get_field(
         version,
@@ -310,7 +291,7 @@ def schema_field_edit(
 
     return render(
         request,
-        "documents/partials/schema/schema_field_form.html",
+        "documents/schema/partials/schema_field_form.html",
         {
             "form": form,
             "schema_id": schema.id,  # ty:ignore[unresolved-attribute]
@@ -320,23 +301,59 @@ def schema_field_edit(
     )
 
 
+@require_POST  # ty:ignore[invalid-argument-type]
+def schema_field_store(request, schema_id):
+
+    schema = get_object_or_404(
+        DocumentSchema,
+        id=schema_id,
+    )
+
+    form = DocumentSchemaFieldForm(request.POST)
+
+    if not form.is_valid():
+        return render(
+            request,
+            "documents/schema/partials/schema_field_form.html",
+            {
+                "form": form,
+            },
+        )
+    draft = schema.draft_version
+
+    append_field(
+        draft,
+        name=form.cleaned_data["name"],
+        label=form.cleaned_data["label"],
+        field_type=form.cleaned_data["field_type"],
+        required=form.cleaned_data["required"],
+    )
+
+    return render_schema_fields(
+        request,
+        schema,
+    )
+
+
+@require_POST  # ty:ignore[invalid-argument-type]
 def schema_field_update(
     request,
     schema_id,
     field_id,
 ):
+
     schema = get_object_or_404(
         DocumentSchema,
-        pk=schema_id,
+        id=schema_id,
     )
 
-    version = schema.draft_version()
+    draft = schema.draft_version
 
     form = DocumentSchemaFieldForm(request.POST)
 
     if form.is_valid():
         update_field(
-            version,
+            draft,
             field_id=field_id,
             name=form.cleaned_data["name"],
             label=form.cleaned_data["label"],
@@ -344,72 +361,60 @@ def schema_field_update(
             required=form.cleaned_data["required"],
         )
 
-    return render(
+    return render_schema_fields(
         request,
-        "documents/partials/schema/schema_field_list.html",
-        {
-            "schema": schema,
-            "fields": version.data.get(
-                "fields",
-                [],
-            ),
-        },
+        schema,
     )
 
 
-def schema_field_delete(
-    request,
-    schema_id,
-    field_id,
-):
-    schema = get_object_or_404(
-        DocumentSchema,
-        pk=schema_id,
-    )
-
-    version = schema.draft_version()
-
-    delete_field(
-        version,
-        field_id=field_id,
-    )
-
-    return render(
-        request,
-        "documents/partials/schema/schema_field_list.html",
-        {
-            "schema": schema,
-            "fields": version.data.get("fields", []),
-        },
-    )
-
-
+@require_POST  # ty:ignore[invalid-argument-type]
 def schema_field_move(
     request,
     schema_id,
     field_id,
 ):
+
     schema = get_object_or_404(
         DocumentSchema,
-        pk=schema_id,
+        id=schema_id,
     )
 
-    version = schema.draft_version()
+    draft = schema.draft_version
+
+    new_index = int(request.POST.get("index", 0))
 
     move_field(
-        version,
+        draft,
         field_id=field_id,
-        new_index=int(request.POST["index"]),
+        new_index=new_index,
     )
 
-    return render(
+    return render_schema_fields(
         request,
-        "documents/partials/schema/schema_field_list.html",
-        {
-            "schema": schema,
-            "fields": version.data.get(
-                "fields",
-                [],
-            ),
-        },
+        schema,
+    )
+
+
+@require_http_methods(["DELETE"])  # ty:ignore[invalid-argument-type]
+def schema_field_delete(
+    request,
+    schema_id,
+    field_id,
+):
+
+    schema = get_object_or_404(
+        DocumentSchema,
+        id=schema_id,
+    )
+
+    draft = schema.draft_version
+
+    delete_field(
+        draft,
+        field_id=field_id,
+    )
+
+    return render_schema_fields(
+        request,
+        schema,
     )

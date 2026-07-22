@@ -1,0 +1,84 @@
+<div class="card">
+    <div class="card-header">
+        <div>
+            <h3>
+                Schema
+            </h3>
+
+            <div class="card-subtitle">
+                Basic information
+            </div>
+        </div>
+    </div>
+
+
+    <form
+            method="post"
+            hx-post="{% if schema.pk %}{% url 'schema_save' schema.pk %}{% else %}{% url 'schema_create' %}{% endif %}"
+            hx-target="#side-panel"
+            hx-swap="innerHTML">
+
+        {% csrf_token %}
+
+        <div class="form">
+            <div class="form-row">
+                {{ form.name.label_tag }}
+                {{ form.name }}
+            </div>
+
+            <div class="form-row">
+                {{ form.document_type.label_tag }}
+                {{ form.document_type }}
+            </div>
+
+            <div class="form-actions">
+                <button
+                        class="primary-button"
+                        type="submit">
+                    {% if schema.pk %}
+                        Save
+                    {% else %}
+                        Create
+                    {% endif %}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% if schema.pk %}
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <h3>
+                    Workflow
+                </h3>
+
+                <div class="card-subtitle">
+                    Version management
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button
+                    class="secondary-button"
+                    hx-post="{% url 'schema_duplicate' schema.pk %}"
+                    hx-target="#side-panel"
+                    hx-swap="innerHTML">
+
+                Duplicate
+            </button>
+
+
+            <button
+                    class="primary-button"
+                    hx-post="{% url 'schema_publish' schema.pk %}"
+                    hx-target="#side-panel"
+                    hx-swap="innerHTML">
+
+                Publish
+            </button>
+        </div>
+    </div>
+{% endif %}

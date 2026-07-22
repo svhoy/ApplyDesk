@@ -1,0 +1,23 @@
+<div id="schema-fields">
+    {% for field in fields %}
+        {% include "documents/schema/partials/schema_field_card.html" %}
+    {% empty %}
+        <div class="empty-state">
+            No fields defined yet.
+        </div>
+    {% endfor %}
+    {% if schema.pk %}
+        <div class="panel-actions">
+            <button
+                    class="primary-button"
+                    hx-get="{% url 'schema_field_form' schema.id %}"
+                    hx-target="#schema-field-form"
+                    hx-swap="innerHTML">
+
+                + Add Field
+            </button>
+        </div>
+    {% endif %}
+</div>
+
+<div id="schema-field-form"></div>
